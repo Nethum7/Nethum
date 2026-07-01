@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nethum Muthugala — Cloud Engineering Student</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0A0F1E;
+      --offwhite:#E6E4DF;
+      --blue:    #2563EB;
+      --sky:     #38BDF8;
+      --slate:   #4A5568;
+      --amber:   #F59E0B;
+      --card:    #111827;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--offwhite);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 3rem;
+      backdrop-filter: blur(12px);
+      background: rgba(10,15,30,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      color: var(--offwhite); text-decoration: none;
+    }
+    .nav-logo span { color: var(--sky); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--slate); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--offwhite); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 3rem 5.5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+    .hero-glow {
+      position: absolute; top: -10%; right: -5%;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--sky); font-weight: 500; margin-bottom: 1.2rem; position: relative; z-index: 1;
+    }
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 8.5rem);
+      font-weight: 800; line-height: 0.92;
+      letter-spacing: -0.03em; position: relative; z-index: 1;
+    }
+    .hero-name .outline {
+      -webkit-text-stroke: 2px var(--offwhite);
+      color: transparent;
+      transition: color 0.35s, -webkit-text-stroke 0.35s;
+      cursor: default;
+    }
+    .hero-name .outline:hover { color: var(--offwhite); -webkit-text-stroke: 2px transparent; }
+    .hero-name .filled { color: var(--offwhite); }
+
+    .hero-sub-row {
+      margin-top: 2.5rem; display: flex; align-items: flex-end;
+      gap: 4rem; flex-wrap: wrap; position: relative; z-index: 1;
+    }
+    .hero-tagline { max-width: 360px; color: var(--slate); font-size: 1rem; line-height: 1.75; }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--blue); color: #fff; text-decoration: none;
+      font-size: 0.88rem; font-weight: 500;
+      padding: 0.85rem 1.75rem; border-radius: 3px;
+      transition: background 0.2s, transform 0.2s; white-space: nowrap;
+    }
+    .hero-cta:hover { background: #1D4ED8; transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; right: 3rem; bottom: 3rem;
+      writing-mode: vertical-rl; font-size: 0.68rem;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--slate); display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-scroll::before {
+      content: ''; display: block; width: 1px; height: 56px; background: var(--slate);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%,100%{opacity:0.3;transform:scaleY(0.6)} 50%{opacity:1;transform:scaleY(1)}
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 7rem 3rem; }
+    .section-label {
+      font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--sky); font-weight: 500; margin-bottom: 0.9rem;
+    }
+    .section-heading {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.02em; color: var(--offwhite);
+    }
+
+    /* ── ABOUT ── */
+    .about { border-top: 1px solid rgba(255,255,255,0.07); }
+    .about-inner {
+      display: grid; grid-template-columns: 1fr 1.6fr;
+      gap: 6rem; align-items: start; margin-top: 4rem;
+    }
+    .about-left { position: sticky; top: 7rem; }
+    .about-avatar {
+      width: 220px; height: 270px; border-radius: 4px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+    }
+    .about-stats { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+    .stat { display: flex; align-items: baseline; gap: 0.5rem; }
+    .stat-number { font-family: 'Syne',sans-serif; font-size: 2rem; font-weight: 800; color: var(--offwhite); }
+    .stat-label { font-size: 0.8rem; color: var(--slate); }
+
+    .about-bio { color: var(--slate); font-size: 1rem; line-height: 1.8; margin-bottom: 1.4rem; }
+    .about-bio strong { color: var(--offwhite); font-weight: 500; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 2rem; }
+    .chip {
+      font-size: 0.76rem; font-weight: 500; padding: 0.35rem 0.85rem;
+      border-radius: 2px; border: 1px solid rgba(37,99,235,0.45);
+      color: var(--sky); background: rgba(37,99,235,0.08); letter-spacing: 0.02em;
+    }
+
+    /* ── PROJECTS ── */
+    .work { border-top: 1px solid rgba(255,255,255,0.07); }
+    .work-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 200px;
+      gap: 1rem;
+    }
+    .card {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px; padding: 1.75rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+      overflow: hidden; position: relative;
+      transition: border-color 0.25s, transform 0.25s; cursor: pointer;
+    }
+    .card:hover { border-color: rgba(56,189,248,0.45); transform: translateY(-3px); }
+    .card-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(56,189,248,0.1) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .card:hover .card-glow { opacity: 1; }
+
+    /* Featured project spans more columns */
+    .c1 { grid-column: span 7; grid-row: span 2; }
+    .c2 { grid-column: span 5; }
+    .c3 { grid-column: span 5; }
+    .c4 { grid-column: span 12; }
+
+    .card-emoji { font-size: 2rem; margin-bottom: auto; }
+    .card-body { margin-top: 0.75rem; }
+    .card-tag { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky); font-weight: 500; }
+    .card-title { font-family: 'Syne',sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--offwhite); margin: 0.3rem 0 0.4rem; line-height: 1.2; }
+    .c1 .card-title { font-size: 1.65rem; }
+    .card-desc { font-size: 0.82rem; color: var(--slate); line-height: 1.65; }
+    .card-link {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.78rem; color: var(--amber); text-decoration: none;
+      font-weight: 500; margin-top: 0.75rem; transition: gap 0.2s;
+    }
+    .card-link:hover { gap: 0.6rem; }
+
+    /* Stack of tech badges inside featured card */
+    .card-badges { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; }
+    .badge {
+      font-size: 0.68rem; padding: 0.2rem 0.6rem; border-radius: 2px;
+      background: rgba(56,189,248,0.1); color: var(--sky);
+      border: 1px solid rgba(56,189,248,0.25);
+    }
+
+    /* ── EDUCATION ── */
+    .education { border-top: 1px solid rgba(255,255,255,0.07); }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+    .edu-card {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px; padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+    .edu-card:hover { border-color: rgba(56,189,248,0.35); }
+    .edu-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .edu-org { font-family: 'Syne',sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--offwhite); }
+    .edu-degree { font-size: 0.83rem; color: var(--sky); margin: 0.25rem 0 0.5rem; font-weight: 500; }
+    .edu-year { font-size: 0.78rem; color: var(--slate); }
+    .edu-desc { font-size: 0.85rem; color: var(--slate); margin-top: 0.75rem; line-height: 1.65; }
+
+    /* ── CONTACT ── */
+    .contact { border-top: 1px solid rgba(255,255,255,0.07); text-align: center; }
+    .contact .section-heading { margin: 0.75rem auto 0.75rem; }
+    .contact-sub { color: var(--slate); font-size: 0.95rem; max-width: 400px; margin: 0 auto 2.5rem; }
+    .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .clink {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.6rem; border-radius: 3px;
+      font-size: 0.86rem; font-weight: 500; text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .clink:hover { transform: translateY(-2px); }
+    .clink-primary { background: var(--blue); color: #fff; }
+    .clink-secondary { border: 1px solid rgba(255,255,255,0.14); color: var(--offwhite); }
+    .clink-secondary:hover { border-color: rgba(255,255,255,0.3); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.75rem 3rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.76rem; color: var(--slate); flex-wrap: wrap; gap: 1rem;
+    }
+    footer a { color: var(--slate); text-decoration: none; }
+    footer a:hover { color: var(--offwhite); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 0 1.5rem 4rem; }
+      .hero-scroll { display: none; }
+      section { padding: 5rem 1.5rem; }
+      .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .about-left { position: static; }
+      .bento { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
+      .c1,.c2,.c3,.c4 { grid-column: span 2; grid-row: span 1; }
+      .edu-grid { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem; }
+    }
+    @media (max-width: 540px) {
+      .bento { grid-template-columns: 1fr; }
+      .c1,.c2,.c3,.c4 { grid-column: span 1; }
+    }
+    @media (prefers-reduced-motion: reduce) { *{ animation:none!important; transition:none!important; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Nethum<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow"></div>
+
+    <p class="hero-eyebrow">Cloud Engineering Student · Sri Lanka</p>
+
+    <h1 class="hero-name">
+      <span class="outline">Nethum</span><br>
+      <span class="filled">Muthugala</span>
+    </h1>
+
+    <div class="hero-sub-row">
+      <p class="hero-tagline">
+        Aspiring cloud engineer studying at SLTC Research University, building on AWS and learning to architect the infrastructure that powers the modern web.
+      </p>
+      <a href="#work" class="hero-cta">See my work →</a>
+    </div>
+
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <p class="section-label">About me</p>
+    <h2 class="section-heading">Cloud-first mindset.</h2>
+
+    <div class="about-inner">
+      <div class="about-left">
+        <div class="about-avatar">☁️</div>
+        <div class="about-stats">
+          <div class="stat">
+            <span class="stat-number">AWS</span>
+            <span class="stat-label">Cloud Platform</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">1</span>
+            <span class="stat-label">Project shipped</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">2+</span>
+            <span class="stat-label">Courses underway</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="about-bio">
+          I'm <strong>Nethum Muthugala</strong>, a cloud engineering student at <strong>SLTC Research University, Sri Lanka</strong>. I'm passionate about cloud infrastructure, serverless architecture, and building reliable systems that scale.
+        </p>
+        <p class="about-bio">
+          My academic foundation started at <strong>Ananda College, Colombo</strong> — one of Sri Lanka's most respected institutions — which sharpened my analytical thinking and gave me the discipline I bring to every project today.
+        </p>
+        <p class="about-bio">
+          Currently I'm deepening my cloud skills through the <strong>AWS Cloud</strong> course and a <strong>Windows Cloud Basics</strong> course alongside my degree. I enjoy building practical tools — my latest is an expense tracker built with <strong>Tkinter in Python</strong>.
+        </p>
+
+        <div class="chips">
+          <span class="chip">AWS Cloud</span>
+          <span class="chip">Python</span>
+          <span class="chip">Tkinter</span>
+          <span class="chip">Windows Cloud</span>
+          <span class="chip">Networking</span>
+          <span class="chip">Linux</span>
+          <span class="chip">Cloud Infrastructure</span>
+          <span class="chip">Serverless</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="work" id="work">
+    <div class="work-header">
+      <div>
+        <p class="section-label">Projects</p>
+        <h2 class="section-heading">What I've built.</h2>
+      </div>
+    </div>
+
+    <div class="bento">
+      <!-- Featured: Expense Tracker -->
+      <div class="card c1">
+        <div class="card-glow"></div>
+        <span class="card-emoji">💸</span>
+        <div class="card-body">
+          <span class="card-tag">Python · Desktop App · 2024</span>
+          <h3 class="card-title">Expense Tracker</h3>
+          <p class="card-desc">
+            A desktop expense management application built with Python and Tkinter. Allows users to log, categorise, and review daily expenses with a clean GUI. Supports adding income and expense entries, calculating balances, and visualising spending patterns.
+          </p>
+          <div class="card-badges">
+            <span class="badge">Python</span>
+            <span class="badge">Tkinter</span>
+            <span class="badge">SQLite</span>
+            <span class="badge">GUI</span>
+          </div>
+          <a href="#" class="card-link">View on GitHub →</a>
+        </div>
+      </div>
+
+      <!-- AWS Studies -->
+      <div class="card c2">
+        <div class="card-glow"></div>
+        <span class="card-emoji">☁️</span>
+        <div class="card-body">
+          <span class="card-tag">Learning · Ongoing</span>
+          <h3 class="card-title">AWS Cloud Course</h3>
+          <p class="card-desc">Studying core AWS services — EC2, S3, IAM, Lambda, and VPC — to architect scalable cloud solutions.</p>
+        </div>
+      </div>
+
+      <!-- Windows Cloud -->
+      <div class="card c3">
+        <div class="card-glow"></div>
+        <span class="card-emoji">🖥️</span>
+        <div class="card-body">
+          <span class="card-tag">Learning · Ongoing</span>
+          <h3 class="card-title">Windows Cloud Basics</h3>
+          <p class="card-desc">Exploring Windows Server in cloud environments, Azure fundamentals, and enterprise cloud administration.</p>
+        </div>
+      </div>
+
+      <!-- Coming soon card -->
+      <div class="card c4" style="grid-row: span 1; opacity: 0.5; border-style: dashed;">
+        <div class="card-body">
+          <span class="card-tag">Coming soon</span>
+          <h3 class="card-title">Next project — cloud deployment</h3>
+          <p class="card-desc">Currently planning a cloud-hosted web application to put AWS skills into practice. Stay tuned.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="education" id="education">
+    <p class="section-label">Education</p>
+    <h2 class="section-heading">Where I've learned.</h2>
+
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-org">SLTC Research University</div>
+        <div class="edu-degree">Bachelor's in Cloud Engineering</div>
+        <div class="edu-year">2023 — Present · Padukka, Sri Lanka</div>
+        <p class="edu-desc">Studying cloud architecture, network infrastructure, systems design, and emerging technologies. Hands-on focus on AWS and real-world cloud deployments.</p>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-icon">🏫</div>
+        <div class="edu-org">Ananda College, Colombo</div>
+        <div class="edu-degree">Secondary Education</div>
+        <div class="edu-year">Colombo 10, Sri Lanka</div>
+        <p class="edu-desc">One of Sri Lanka's most distinguished schools, founded 1886. Built a strong foundation in mathematics, science, and critical thinking that continues to inform my engineering approach.</p>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-icon">☁️</div>
+        <div class="edu-org">AWS Cloud Course</div>
+        <div class="edu-degree">AWS Cloud Practitioner Track</div>
+        <div class="edu-year">In Progress · 2024</div>
+        <p class="edu-desc">Covering compute, storage, databases, networking, security, and pricing on AWS. Working towards cloud practitioner certification.</p>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-icon">🖥️</div>
+        <div class="edu-org">Windows Cloud Basics</div>
+        <div class="edu-degree">Windows Server & Cloud Administration</div>
+        <div class="edu-year">In Progress · 2024</div>
+        <p class="edu-desc">Fundamentals of Windows Server, Active Directory, remote desktop services, and cloud-integrated Windows environments.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <p class="section-label">Get in touch</p>
+    <h2 class="section-heading">Let's connect.</h2>
+    <p class="contact-sub">Open to internships, collaborations, and cloud engineering conversations. I'd love to hear from you.</p>
+    <div class="contact-links">
+      <a href="mailto:nethum.muthugala13@gmail.com" class="clink clink-primary">✉️ nethum.muthugala13@gmail.com</a>
+      <a href="https://github.com/Nethum7" target="_blank" class="clink clink-secondary">GitHub</a>
+      <a href="https://www.linkedin.com/in/nethum-muthugala-010083345/" target="_blank" class="clink clink-secondary">LinkedIn</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Nethum Muthugala · SLTC Research University, Sri Lanka</span>
+    <a href="#">Back to top ↑</a>
+  </footer>
+
+  <script>
+    // Cursor glow on project cards
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%');
+      });
+    });
+
+    // Fade-in on scroll
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .edu-card, .about-inner > div:last-child').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(22px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      obs.observe(el);
+    });
+  </script>
+</body>
+</html>
